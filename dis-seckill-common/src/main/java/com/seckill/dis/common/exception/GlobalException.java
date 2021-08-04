@@ -1,12 +1,15 @@
 package com.seckill.dis.common.exception;
 
 import com.seckill.dis.common.result.CodeMsg;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * 全局异常处理器
  *
  * @author noodle
  */
+
 public class GlobalException extends RuntimeException {
 
     private CodeMsg codeMsg;

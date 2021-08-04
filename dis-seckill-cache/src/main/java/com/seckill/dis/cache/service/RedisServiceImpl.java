@@ -100,7 +100,7 @@ public class RedisServiceImpl implements RedisServiceApi {
         try {
             jedis = jedisPool.getResource();
             String realKey = keyPrefix.getPrefix() + key;
-            return jedis.decr(realKey);
+            return jedis.decr(realKey); // 执行Redis原子减操作
         } finally {
             returnToPool(jedis);
         }

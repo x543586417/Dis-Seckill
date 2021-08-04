@@ -34,6 +34,11 @@ public class OrderServiceImpl implements OrderServiceApi {
     @Reference(interfaceClass = RedisServiceApi.class)
     RedisServiceApi redisService;
 
+    /**
+     * 功能描述：获取订单详情
+     * @param orderId
+     * @return
+     */
     @Override
     public OrderInfo getOrderById(long orderId) {
         return orderMapper.getOrderById(orderId);
@@ -63,6 +68,7 @@ public class OrderServiceImpl implements OrderServiceApi {
         SeckillOrder seckillOrder = new SeckillOrder();
         GoodsVo goods = redisService.get(GoodsKeyPrefix.seckillGoodsInf, ""+goodsId ,GoodsVo.class);
 
+        // 生成订单商品信息
         orderInfo.setCreateDate(new Date());
         orderInfo.setDeliveryAddrId(0L);
         orderInfo.setGoodsCount(1);// 订单中商品的数量
@@ -77,6 +83,7 @@ public class OrderServiceImpl implements OrderServiceApi {
         long orderId = orderMapper.insert(orderInfo);
         logger.debug("将订单信息插入 order_info 表中: 记录为" + orderId);
 
+        // 生成用户秒杀信息
         seckillOrder.setGoodsId(goods.getId());
         seckillOrder.setOrderId(orderInfo.getId());
         seckillOrder.setUserId(userId);

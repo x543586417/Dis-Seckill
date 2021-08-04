@@ -34,7 +34,7 @@ public class UserUtil {
 
         // 将用户信息插入数据库，以便在后面模拟用户登录时可以找到该用户，从而可以生成token返会给客户端，然后保存到文件中用于压测
         // 首次生成数据库信息的时候需要调用这个方法，非首次需要注释掉
-       /*  try {
+         try {
             insertSeckillUserToDB(users);
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
@@ -44,11 +44,11 @@ public class UserUtil {
             // TODO Auto-generated catch block
             System.out.println("erro2");
             e.printStackTrace();
-        } */
+        }
         // 模拟用户登录，生成token
         System.out.println("start to login...");
         String urlString = "http://localhost:8082/user/login";
-        File file = new File("E:/tokens.txt");
+        File file = new File("G:\\Java\\dis-seckill-master\\dis-seckill-common\\stress_test\\test2.txt");
         if (file.exists()) {
             file.delete();
         }
@@ -70,14 +70,14 @@ public class UserUtil {
             // 生成token
             InputStream inputStream = httpURLConnection.getInputStream();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            byte buff[] = new byte[1024];
+            byte[] buff = new byte[1024];
             int len = 0;
             while ((len = inputStream.read(buff)) >= 0) {
                 bout.write(buff, 0, len);
             }
             inputStream.close();
             bout.close();
-            String response = new String(bout.toByteArray());
+            String response = bout.toString();
             JSONObject jo = JSON.parseObject(response);
             // System.out.println(jo);
             String token = jo.getString("data");// data为edu.uestc.controller.result.Result中的字段
@@ -122,7 +122,7 @@ public class UserUtil {
     private static void insertSeckillUserToDB(List<SeckillUser> users) throws ClassNotFoundException, SQLException {
         System.out.println("start create user...");
         Connection conn = DBUtil.getConn();
-        String sql = "INSERT INTO seckill_user(login_count, nickname, register_date, salt, password, phone)VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO seckill.seckill_user(login_count, nickname, register_date, salt, password, phone)VALUES(?,?,?,?,?,?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         for (int i = 0; i < users.size(); i++) {
             SeckillUser user = users.get(i);
@@ -141,6 +141,6 @@ public class UserUtil {
     }
 
    public static void main(String[] args) throws IOException {
-       createUser(1000);
+       createUser(10);
    }
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,8 +21,9 @@ import java.util.List;
  * @author noodle
  */
 
-@ControllerAdvice // 通过Advice可知，这个处理器实际上是一个切面
-@ResponseBody
+//@ControllerAdvice // 通过Advice可知，这个处理器实际上是一个切面
+//@ResponseBody
+@RestControllerAdvice // 通过Advice可知，这个处理器实际上是一个切面
 public class GlobalExceptionHandler {
 
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler {
      * @param e       该请求所产生的异常
      * @return 向客户端返回的结果（这里为json数据）
      */
-    @ExceptionHandler(value = Exception.class)// 这个注解用指定这个方法对何种异常处理（这里默认所有异常都用这个方法处理）
+    @ExceptionHandler(Exception.class)// 这个注解用指定这个方法对何种异常处理（这里默认所有异常都用这个方法处理）
     public Result<String> exceptionHandler(HttpServletRequest request, Exception e) {
         logger.info("出现异常");
         e.printStackTrace();// 打印原始的异常信息，方便调试
@@ -50,8 +52,7 @@ public class GlobalExceptionHandler {
             ObjectError error = errors.get(0);// 这里只获取了第一个错误对象
             String message = error.getDefaultMessage();// 获取其中的信息
             return Result.error(CodeMsg.BIND_ERROR.fillArgs(message));// 将错误信息动态地拼接到已定义的部分信息上
-        } else {
-            return Result.error(CodeMsg.SERVER_ERROR);
         }
+        return Result.error(CodeMsg.SERVER_ERROR);
     }
 }

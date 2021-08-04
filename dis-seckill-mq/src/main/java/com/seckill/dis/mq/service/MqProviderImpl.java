@@ -3,6 +3,7 @@ package com.seckill.dis.mq.service;
 import com.seckill.dis.common.api.mq.MqProviderApi;
 import com.seckill.dis.common.api.mq.vo.SkMessage;
 import com.seckill.dis.mq.config.MQConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

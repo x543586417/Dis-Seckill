@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -87,10 +86,11 @@ public class SeckillController implements InitializingBean {
     @RequestMapping(value = "path", method = RequestMethod.GET)
     @ResponseBody
     @SentinelResource(value = "Seckill",blockHandler ="blockHandlerFordoSeckill",blockHandlerClass = {MyBlockHandler.class})
+//    public Result<String> getSeckillPath( UserVo user,
+//                                          @RequestParam("goodsId") long goodsId) {
     public Result<String> getSeckillPath( UserVo user,
                                          @RequestParam("goodsId") long goodsId,
                                          @RequestParam(value = "verifyCode") int verifyCode) {
-
         /** 在执行下面的逻辑之前，会先对path请求进行拦截处理（@AccessLimit， AccessInterceptor），防止访问次数过于频繁，对服务器造成过大的压力 */
 
         boolean check_goodsID=redisService.exists(GoodsKeyPrefix.seckillGoodsInf, ""+goodsId);
@@ -129,13 +129,15 @@ public class SeckillController implements InitializingBean {
      * @return 订单详情或错误码
      */
     // {path}为客户端回传的path，最初也是有服务端产生的
-    @RequestMapping(value = "{path}/doSeckill", method = RequestMethod.POST)
+    @RequestMapping(value = "doSeckill", method = RequestMethod.POST)
     @ResponseBody
+//    public Result<Integer> doSeckill( UserVo user,
+//                                      @RequestParam("goodsId") long goodsId) {
     public Result<Integer> doSeckill( UserVo user,
                                      @RequestParam("goodsId") long goodsId,
                                      @PathVariable("path") String path) {
 
-        // 验证path是否正确
+//         验证path是否正确
         boolean check = this.checkPath(user, goodsId, path);
 
         if (!check)

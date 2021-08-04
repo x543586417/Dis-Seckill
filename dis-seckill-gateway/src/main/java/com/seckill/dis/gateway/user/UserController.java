@@ -7,7 +7,6 @@ import com.seckill.dis.common.api.user.vo.RegisterVo;
 import com.seckill.dis.common.api.user.vo.UserVo;
 import com.seckill.dis.common.result.CodeMsg;
 import com.seckill.dis.common.result.Result;
-import com.seckill.dis.common.util.MD5Util;
 import com.seckill.dis.gateway.exception.GlobalException;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -69,6 +67,8 @@ public class UserController {
     public Result<String> login(HttpServletResponse response, @Valid LoginVo loginVo) {
 
         String token = userService.login(loginVo);
+//        if(token.equals("500214")) return Result.error(CodeMsg.MOBILE_NOT_EXIST);
+//        if(token.equals("500215")) return Result.error(CodeMsg.PASSWORD_ERROR);
         logger.info("token: " + token);
 
         // 将token写入cookie中, 然后传给客户端（一个cookie对应一个用户，这里将这个cookie的用户信息写入redis中）
@@ -111,6 +111,12 @@ public class UserController {
         CodeMsg codeMsg = userService.register(registerVo);
 
         return Result.info(codeMsg);
+    }
+
+    @RequestMapping("info")
+    @ResponseBody
+    public Result<UserVo> info(UserVo user) {
+        return Result.success(user);
     }
 
 

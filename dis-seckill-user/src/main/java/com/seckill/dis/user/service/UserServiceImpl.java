@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserServiceApi {
      */
     @Override
     public String login(@Valid LoginVo loginVo) {
+        //调用用户信息
         logger.info(loginVo.toString());
 
         // 获取用户提交的手机号码和密码
@@ -137,7 +138,9 @@ public class UserServiceImpl implements UserServiceApi {
         SeckillUser user = this.getSeckillUserByPhone(Long.parseLong(mobile));
         // 缓存中、数据库中都不存在该用户信息，直接返回
         if (user == null)
+//            return Result.error(CodeMsg.MOBILE_NOT_EXIST);
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+//            return "500214";
         logger.info("用户：" + user.toString());
 
         // 判断手机号对应的密码是否一致
@@ -146,7 +149,7 @@ public class UserServiceImpl implements UserServiceApi {
         String calcPass = MD5Util.formPassToDbPass(password, dbSalt);
         if (!calcPass.equals(dbPassword))
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
-
+//            return "500215";
         // 执行到这里表明登录成功，更新用户cookie
         // 生成cookie
         String token = UUIDUtil.uuid();

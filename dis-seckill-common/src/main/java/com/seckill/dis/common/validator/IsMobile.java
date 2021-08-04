@@ -23,7 +23,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface IsMobile {
 
     /**
-     * 默认手机号码不可为空
      *
      * @return
      */

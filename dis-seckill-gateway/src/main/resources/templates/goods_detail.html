@@ -93,8 +93,8 @@
                 countDown();
             }, 1000);// 每秒更新一次
 
-        } else if (remainSeconds == 0) {//秒杀进行中
-            $("#buyButton").attr("disabled", false);// 秒杀按钮不可用
+        } else if (remainSeconds === 0) {//秒杀进行中
+            $("#buyButton").attr("disabled", false);// 秒杀按钮可用
             if (timeout) {// 清除倒计时
                 clearTimeout(timeout);
             }

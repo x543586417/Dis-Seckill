@@ -47,7 +47,7 @@ public class GoodsController {
      * 因为在redis缓存中不存页面缓存时需要手动渲染，所以注入一个视图解析器，自定义渲染
      */
     @Autowired
-    ThymeleafViewResolver thymeleafViewResolver;
+    ThymeleafViewResolver thymeleafViewResolver; // 手动渲染工具
 
     /**
      * 获取 SKUser 对象，并将其传递到页面解析器
@@ -64,7 +64,7 @@ public class GoodsController {
      * @return
      */
     @RequestMapping(value = "goodsList", produces = "text/html")// produces表明：这个请求会返回text/html媒体类型的数据
-    @ResponseBody
+    @ResponseBody // 返回json对象
     public String goodsList(HttpServletRequest request,
                             HttpServletResponse response,
                             Model model,
@@ -74,6 +74,7 @@ public class GoodsController {
 
         // 1. 从redis缓存中取html
         String html = redisService.get(GoodsKeyPrefix.GOODS_LIST_HTML, "", String.class);
+
         if (!StringUtils.isEmpty(html))
             return html;
 
@@ -82,15 +83,14 @@ public class GoodsController {
         List<GoodsVo> goodsVoList = goodsService.listGoodsVo();
         model.addAttribute("goodsList", goodsVoList);
         model.addAttribute("user", user);
-
         // 3. 渲染html
-        WebContext webContext = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
+        WebContext webContext = new WebContext(request, response,
+                request.getServletContext(), request.getLocale(), model.asMap());
         // (第一个参数为渲染的html文件名，第二个为web上下文：里面封装了web应用的上下文)
         html = thymeleafViewResolver.getTemplateEngine().process("goods_list", webContext);
 
         if (!StringUtils.isEmpty(html)) // 如果html文件不为空，则将页面缓存在redis中
-            redisService.set(GoodsKeyPrefix.GOODS_LIST_HTML, "", html);
-
+            redisService.set(GoodsKeyPrefix.GOODS_LIST_HTML, "", html); // 存活时间在RedisServiceImpl里默认设置
         return html;
     }
 
@@ -111,7 +111,7 @@ public class GoodsController {
 
         // 通过商品id在数据库查询
         GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
-
+//        model.addAttribute("goods", goods);
         // 获取商品的秒杀开始与结束的时间
         long startDate = goods.getStartDate().getTime();
         long endDate = goods.getEndDate().getTime();

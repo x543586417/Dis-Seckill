@@ -2,7 +2,6 @@ package com.seckill.dis.goods.service;
 
 import com.seckill.dis.common.api.goods.GoodsServiceApi;
 import com.seckill.dis.common.api.goods.vo.GoodsVo;
-import com.seckill.dis.common.domain.SeckillGoods;
 import com.seckill.dis.goods.persistence.GoodsMapper;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;

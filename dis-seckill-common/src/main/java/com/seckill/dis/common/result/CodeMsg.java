@@ -45,11 +45,11 @@ public class CodeMsg implements Serializable {
     //订单模块 5004XX
     public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(500400, "订单不存在");
 
-    /**
-     * 秒杀模块 5005XX
-     */
-    public static CodeMsg SECKILL_OVER = new CodeMsg(500500, "商品已经秒杀完毕");
-    public static CodeMsg REPEATE_SECKILL = new CodeMsg(500501, "不能重复秒杀");
+
+    //秒杀模块 5005XX
+
+    public static CodeMsg SECKILL_OVER = new CodeMsg(500500, "商品被抢光啦");
+    public static CodeMsg REPEATE_SECKILL = new CodeMsg(500501, "已参与秒杀");
     public static CodeMsg SECKILL_FAIL = new CodeMsg(500502, "秒杀失败");
     public static CodeMsg SECKILL_PARM_ILLEGAL = new CodeMsg(500503, "秒杀请求参数异常：%s");
     public static CodeMsg SECKILL_TIME_ILLEGAL = new CodeMsg(500504, "非法请求，秒杀还没开始");

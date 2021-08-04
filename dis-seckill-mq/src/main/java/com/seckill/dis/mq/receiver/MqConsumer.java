@@ -13,6 +13,7 @@ import com.seckill.dis.common.api.seckill.SeckillServiceApi;
 import com.seckill.dis.common.api.user.vo.UserVo;
 import com.seckill.dis.common.domain.SeckillOrder;
 import com.seckill.dis.mq.config.MQConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
